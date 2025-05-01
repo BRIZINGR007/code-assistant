@@ -1,0 +1,47 @@
+.code-container {
+    max-height: 80vh;
+    max-width: 100%;
+    overflow: auto;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.code-content {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.code-container {
+    max-height: 70vh;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.code-content {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+/* For better code syntax highlighting if you're using it */
+.code-content .code-keyword {
+    color: #07a;
+}
+
+.code-content .code-string {
+    color: #690;
+}
+
+.code-content .code-comment {
+    color: #999;
+}
+
+/* Improve modal appearance */
+.modal-header {
+    background-color: #f8f9fa;
+}

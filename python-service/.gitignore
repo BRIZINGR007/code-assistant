@@ -1,0 +1,17 @@
+efs-mount-point/
+.env
+.venv
+.vscode
+.VSCodeCounter
+service.log
+__pycache__/
+poetry.lock
+typings/
+.mypy_cache/
+.venv
+BAAI
+bartowski
+MaziyarPanahi
+intfloat
+cross-encoder
+test.ipynb

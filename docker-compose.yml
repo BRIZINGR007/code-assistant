@@ -1,0 +1,56 @@
+services:
+  angular-frontend:
+    build:
+      context: ./angular-frontend
+      dockerfile: Dockerfile
+      args:
+        - --progress=plain
+    container_name: angular-frontend
+    ports:
+      - "4280:4280"
+    depends_on:
+      - golang-service
+    networks:
+      - app-network
+
+  golang-service:
+    build:
+      context: ./golang-service
+      dockerfile: Dockerfile
+      args:
+        - --progress=plain
+    container_name: golang-service
+    ports:
+      - "4281:4281"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - DB_NAME=micro-service-code-assistant
+      - BASE_URL=http://python-service:4282
+      - REFRENCES_LIMIT=${REFRENCES_LIMIT:-8}
+    depends_on:
+      - python-service
+    networks:
+      - app-network
+
+  python-service:
+    build:
+      context: ./python-service
+      dockerfile: Dockerfile
+      args:
+        - --progress=plain
+        - USE_BEDROCK=${USE_BEDROCK:-false}
+    container_name: python-service
+    ports:
+      - "4282:4282"
+    
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION_NAME=${AWS_REGION_NAME}
+      - USE_BEDROCK=${USE_BEDROCK:-false}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

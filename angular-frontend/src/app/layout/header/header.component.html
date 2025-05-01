@@ -1,0 +1,23 @@
+<header class="navbar fixed-top bg-app-theme">
+    <div class="container-fluid gap-2">
+        <button class="btn text-white border-white" type=" button" (click)="GoToDashBoard()">
+            <i class="bi bi-speedometer me-2"></i>
+            <span class="text-uppercase fw-bold text-wrap">
+                DashBoard
+            </span>
+        </button>
+        <button class="btn text-white border-white" type="button" (click)="GoToGeneralChat()">
+            <i class="bi bi-chat-left-dots-fill  me-2"></i>
+            <span class="text-uppercase fw-bold text-wrap">
+                General Chat
+            </span>
+        </button>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <button class="nav-link text-white" aria-label="User Profile" (click)="LogOut()">
+                    <i class="bi bi-box-arrow-in-right fs-3 me-3"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+</header>

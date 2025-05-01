@@ -1,0 +1,71 @@
+@use './variables' as *;
+@forward './variables';
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+    --primary-color: #121a22;
+}
+
+
+.bg-app-theme {
+    background-color: var(--primary-color) !important;
+}
+
+
+/*
+Toaster CSS
+*/
+
+.toast-container .ngx-toastr {
+    width: 400px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Arial', sans-serif;
+}
+
+.toast-success {
+    background-color: #28a745;
+    border-color: #218838;
+}
+
+.toast-error {
+    background-color: #dc3545;
+    border-color: #c82333;
+}
+
+.toast-info {
+    background-color: #17a2b8;
+    border-color: #138496;
+}
+
+.toast-warning {
+    background-color: #ffc107;
+    border-color: #e0a800;
+}
+
+/*
+  Toaster CSS
+*/
+
+
+
+.interface_body {
+    height: 78vh;
+    overflow-y: auto;
+}
+
+
+.dashboard {
+    &__container {
+        padding-top: 3%;
+        padding-left: 2%;
+        padding-right: 2%;
+        margin-top: $header-height;
+        position: relative;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

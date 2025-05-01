@@ -1,0 +1,28 @@
+<div class="mb-3">
+    <div class="d-flex justify-content-end">
+        <div class="border border-dark rounded p-2 ms-4">
+            <markdown [data]="chat.user_question" lineNumbers [lineHighlight]="true"></markdown>
+        </div>
+        <i class="bi bi-person-check fs-4"></i>
+    </div>
+
+
+    <div class="d-flex justify-content-start mt-2">
+        <i class="bi bi-robot fs-4 me-1"></i>
+        <div class="col me-4">
+            @if (chat.ai_answer){
+            <div class="border border-dark bg-light rounded p-2">
+                <markdown [data]="chat.ai_answer" lineNumbers [lineHighlight]="true"></markdown>
+            </div>
+            @if( chat.references !==null && chat.references.length > 0){
+            <div class="mt-1  justify-content-end">
+                <small class="btn btn-sm bg-app-theme rounded text-white" (click)="showRefernces()">References</small>
+            </div>
+            }
+            }
+            @if (!chat.ai_answer){
+            <app-chat-skeleton></app-chat-skeleton>
+            }
+        </div>
+    </div>
+</div>

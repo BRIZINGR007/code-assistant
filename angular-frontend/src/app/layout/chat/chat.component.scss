@@ -1,0 +1,33 @@
+.custom-col-95 {
+    width: 96%;
+}
+
+.custom-col-3 {
+    width: 3%;
+}
+
+
+.auto-expand-textarea {
+    transition: height 0.2s ease;
+    max-height: 350px;
+    overflow-x: hidden;
+    resize: none;
+    border: none;
+}
+
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+    outline: 0px !important;
+    box-shadow: none !important;
+}

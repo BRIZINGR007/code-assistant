@@ -1,0 +1,262 @@
+<div>
+    <app-header></app-header>
+    <div class="dashboard__container d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-center mt-5">
+            @if (!extractCodeBaseClicked) {
+            <button (click)="ExtractCodeBase()" class="btn text-white bg-app-theme text-uppercase fw-bold text-wrap">Add
+                Code Base</button>
+            } @else {
+            <div class="card-body p-4">
+                <form [formGroup]="codebaseForm" (ngSubmit)="onSubmit()">
+                    <!-- CodeBase Name -->
+                    <div class="mb-3">
+                        <label for="codeBaseName" class="form-label">Codebase Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-card-text"></i>
+                            </span>
+                            <input type="text" class="form-control" formControlName="codeBaseName"
+                                placeholder="e.g., My Codebase"
+                                [ngClass]="{'is-invalid': submitted && f['codeBaseName'].errors}">
+                        </div>
+                        @if (submitted && f['codeBaseName'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['codeBaseName'].errors['required']) {
+                            Codebase Name is required
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- GitHub URL -->
+                    <div class="mb-3">
+                        <label for="githubUrl" class="form-label">GitHub URL</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-github"></i>
+                            </span>
+                            <input type="url" class="form-control" formControlName="gitHubURL"
+                                placeholder="https://github.com/user/repo"
+                                [ngClass]="{'is-invalid': submitted && f['gitHubURL'].errors}">
+                        </div>
+                        @if (submitted && f['gitHubURL'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['gitHubURL'].errors['required']) {
+                            GitHub URL is required
+                            }
+                            @if (f['gitHubURL'].errors['pattern']) {
+                            Enter a valid GitHub URL
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">GitHub Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person-circle"></i>
+                            </span>
+                            <input type="text" class="form-control" formControlName="username"
+                                placeholder="GitHub Username"
+                                [ngClass]="{'is-invalid': submitted && f['username'].errors}">
+                        </div>
+                        @if (submitted && f['username'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['username'].errors['required']) {
+                            Username is required
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Token -->
+                    <div class="mb-3">
+                        <label for="token" class="form-label">GitHub Token</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key"></i>
+                            </span>
+                            <input type="password" class="form-control" formControlName="token"
+                                placeholder="GitHub Token" [ngClass]="{'is-invalid': submitted && f['token'].errors}">
+                        </div>
+                        @if (submitted && f['token'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['token'].errors['required']) {
+                            Token is required
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Branch -->
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Branch</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-git"></i>
+                            </span>
+                            <input type="text" class="form-control" formControlName="branch"
+                                placeholder="main or master"
+                                [ngClass]="{'is-invalid': submitted && f['branch'].errors}">
+                        </div>
+                        @if (submitted && f['branch'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['branch'].errors['required']) {
+                            Branch name is required
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Folder Path -->
+                    <div class="mb-3">
+                        <label for="folderPath" class="form-label">Folder Path</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-folder"></i>
+                            </span>
+                            <input type="text" class="form-control" formControlName="folderPath"
+                                placeholder="/src/components"
+                                [ngClass]="{'is-invalid': submitted && f['folderPath'].errors}">
+                        </div>
+                        @if (submitted && f['folderPath'].errors) {
+                        <div class="invalid-feedback d-block">
+                            @if (f['folderPath'].errors['required']) {
+                            Folder path is required
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        @if(!codeBaseSyncingStarted){
+                        <button type="submit" class="btn text-white bg-app-theme">
+                            <span class="text-uppercase fw-bold text-wrap">
+                                SAVE CODEBASE
+                            </span>
+                        </button>
+                        }@else {
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="spinner-border me-2" role="status" style="width: 1.5rem; height: 1.5rem;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span class="text-uppercase fw-bold text-wrap">
+                                Extracting code from repository...
+                            </span>
+                        </div>
+                        }
+
+                        <div class="btn border-dark" (click)="closeCodeBaseClicked()">
+                            <i class="bi bi-fullscreen-exit me-2"></i>
+                            <span class="text-uppercase fw-bold text-wrap">
+                                MINIMZE FORM
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            }
+        </div>
+        <!-- Actual View Starts Here -->
+        <div class="border-top border-black my-2"></div>
+        <div class="row mt-1">
+            <div class=" col-md-4">
+                <div class="d-flex">
+                    <table class="table  table-bordered shadow-lg rounded-4  overflow-hidden">
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th>#</th>
+                                <th>Sessions</th>
+                                <th>Go To</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle  text-center">
+                            @for (each_session of userChatSessions; track each_session; let i = $index) {
+                            <tr>
+                                <td>{{$index+1}}</td>
+                                <td>{{each_session.session_id}}</td>
+                                <td>
+                                    <button class="btn bg-app-theme text-white"
+                                        (click)="navigateToChatSession(each_session.session_id)">
+                                        <i class="bi bi-chat-left-dots-fill me-2"></i>
+                                        <span class="text-uppercase small fw-bold">Go To Session !</span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn" (click)="deleteChatSession(each_session.session_id)">
+                                        <i class="bi bi-trash fs-3"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex flex-column">
+                    <div class="d-flex mb-2 gap-2 justify-content-between">
+                        @if (selectedCodebaseIds.length>0) {
+                        <button class="btn  bg-app-theme  text-white  d-flex align-items-center py-2 px-4"
+                            (click)="StartNewChatSession()">
+                            <i class="bi bi-chat-left-dots-fill me-2"></i>
+                            <span class="text-uppercase small fw-bold">Chart a Course to Code
+                                Session — click here!</span>
+                        </button>
+                        } @else {
+                        <div class="bg-app-theme text-white d-flex align-items-center just px-4 py-1 rounded-4">
+                            <i class="bi bi-chat-left-dots-fill me-4"></i>
+                            <span class="text-uppercase fw-bold text-wrap">
+                                Please, select the sacred CodeBases with which thou dost wish to parley.
+                            </span>
+                        </div>
+                        }
+                        <div class="d-flex">
+                            <button class="btn  bg-app-theme  text-white  d-flex align-items-center py-2 px-4"
+                                (click)="SyncCodeBases()">
+                                <i class="bi bi-arrow-repeat me-2"></i>
+                                <span class="text-uppercase small fw-bold">Sync CodeBases !</span>
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-bordered shadow-lg rounded-4 overflow-hidden">
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th><span class="me-2">Select All</span><input type="checkbox"
+                                        (change)="toggleAllCodebases($event)">
+                                </th>
+                                <th>CodeBaseName</th>
+                                <th>Branch</th>
+                                <th>Created By</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle text-center">
+                            @for (each_codebase of codebases; track each_codebase; let i = $index) {
+                            <tr>
+                                <td><input type="checkbox" [checked]="isCodebaseSelected(each_codebase.codebase_id)"
+                                        (change)="toggleCodebaseSelection(each_codebase.codebase_id)"></td>
+                                <td>{{ each_codebase.codebase_name }}</td>
+                                <td>{{each_codebase.branch}}</td>
+                                <td>{{each_codebase.username}}</td>
+                                <td>
+                                    <button class="btn" (click)="deleteCodeBaseContext(each_codebase.codebase_id)">
+                                        <i class="bi bi-trash fs-3"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

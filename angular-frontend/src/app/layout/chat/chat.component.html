@@ -1,0 +1,66 @@
+<div>
+    <app-header></app-header>
+    <div class="dashboard__container">
+        <div class="row">
+            <div [ngClass]="
+          sessionId === ChatEnums.GENERAL_CHAT_SESSION
+            ? 'col-md-12 px-0'
+            : showReferencesTraversal
+            ? 'col-md-8 px-0'
+            : 'custom-col-95 px-0'
+        ">
+
+                <div class="card h-100 border border-dark">
+                    <div class="card-header bg-app-theme text-white">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="text-uppercase small fw-bold"> Chat Session #{{sessionId}}</div>
+                            @if (sessionId === ChatEnums.GENERAL_CHAT_SESSION){
+                            <div class="cursor-pointer" (click)="DeleteGeneralSessionChats()"><i
+                                    class="bi bi-trash3-fill"></i></div>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="card-body  interface_body" #chatBody>
+                        @if (isLoading) {
+                        <div class="placeholder-container">
+                            @for (_ of [].constructor(3); track $index) {
+                            <div class="mb-3">
+                                <app-chat-skeleton></app-chat-skeleton>
+                            </div>
+                            }
+                        </div>
+                        } @else {
+                        @for (chat of sessionChats; track chat.chat_id) {
+                        <app-chat-message [chat]="chat"
+                            (ReferncesTraversalEmitter)="SetReferncesForTraversal($event)"></app-chat-message>
+                        }
+                        }
+
+                    </div>
+                    <div class="d-flex flex-column-reverse p-0  border-top border-black">
+                        <div class="position-relative w-100 p-2">
+                            <textarea #textareaInput class="form-control pe-5 auto-expand-textarea" rows="1"
+                                placeholder="Type your message..." [(ngModel)]="userQuestion"
+                                (keydown.enter)="OnEnter($event)" (input)="AutoResize($event)">
+                    </textarea>
+                            <button class="btn btn-sm position-absolute end-0 bottom-0 m-2 border-0"
+                                (click)="HandleSend()" [disabled]="!userQuestion.trim()">
+                                <i class="bi bi-send-fill fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            @if (sessionId !== ChatEnums.GENERAL_CHAT_SESSION) {
+            <div [ngClass]="showReferencesTraversal ? 'col-md-4' : 'custom-col-3'">
+                <app-refrence-traversal [referencesForTraversal]="referencesForTraversal"
+                    (CloseReferenceTraversalEmitter)="CloseRefernceTraversal()"></app-refrence-traversal>
+            </div>
+            }
+        </div>
+
+    </div>
+</div>
